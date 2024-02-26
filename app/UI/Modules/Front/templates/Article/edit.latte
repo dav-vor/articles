@@ -1,0 +1,20 @@
+{include '../header.latte'}
+
+<body>
+    <div>
+		<div class="form">
+			{control articleForm}
+		</div>
+
+		<a class="btn btn-link" href="{link 'Home:'}">Zpět na výpis článků</a>
+
+		<div class="container">
+                 <div class="col">
+                     {foreach $images as $img}
+                    	<img class="img-fluid" src="{$img|dataStream}"style="max-height: 200px">
+                	 {/foreach}
+				</div>
+		</div>
+    </div>
+</body>
+

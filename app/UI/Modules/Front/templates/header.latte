@@ -1,0 +1,25 @@
+{block #head}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" defer/>
+	<script src="{$basePath}/assets/naja.bundle.js" defer></script>
+	<script src="{$basePath}/assets/main.bundle.js" defer></script>
+	</script>
+{/}
+
+<header class="masthead mb-auto">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 n:block=title>Jednoduchý redakční systém</h1>
+            </div>
+            <div class="col-md-4 text-right">
+                <div class="login-link">
+                    {if $loggedIn}
+                        <a type="button" class="btn btn-link" n:href="Login:logout">Odhlásit</a>
+                    {else}
+                        <a type="button" class="btn btn-link" n:href="Login:">Přihlásit</a>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

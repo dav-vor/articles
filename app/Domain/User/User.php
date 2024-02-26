@@ -6,8 +6,6 @@ use App\Model\Database\Entity\AbstractEntity;
 use App\Model\Database\Entity\TCreatedAt;
 use App\Model\Database\Entity\TId;
 use App\Model\Database\Entity\TUpdatedAt;
-use App\Model\Exception\Logic\InvalidArgumentException;
-use App\Model\Security\Identity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,13 +22,7 @@ class User extends AbstractEntity
 	use TUpdatedAt;
 
 	public const ROLE_ADMIN = 'admin';
-	public const ROLE_USER = 'user';
-
-	public const STATE_FRESH = 1;
-	public const STATE_ACTIVATED = 2;
-	public const STATE_BLOCKED = 3;
-
-	public const STATES = [self::STATE_FRESH, self::STATE_BLOCKED, self::STATE_ACTIVATED];
+	public const ROLE_REDACTOR = 'redactor';
 
 	/** @ORM\Column(type="string", length=255, nullable=FALSE, unique=false) */
 	private string $name;
@@ -43,9 +35,6 @@ class User extends AbstractEntity
 
 	/** @ORM\Column(type="string", length=255, nullable=FALSE, unique=TRUE) */
 	private string $username;
-
-	/** @ORM\Column(type="integer", length=10, nullable=FALSE) */
-	private int $state;
 
 	/** @ORM\Column(type="string", length=255, nullable=FALSE) */
 	private string $password;
@@ -67,8 +56,7 @@ class User extends AbstractEntity
 		$this->username = $username;
 		$this->password = $passwordHash;
 
-		$this->role = self::ROLE_USER;
-		$this->state = self::STATE_FRESH;
+		$this->role = self::ROLE_REDACTOR;
 	}
 
 	public function changeLoggedAt(): void
@@ -116,21 +104,6 @@ class User extends AbstractEntity
 		$this->password = $password;
 	}
 
-	public function block(): void
-	{
-		$this->state = self::STATE_BLOCKED;
-	}
-
-	public function activate(): void
-	{
-		$this->state = self::STATE_ACTIVATED;
-	}
-
-	public function isActivated(): bool
-	{
-		return $this->state === self::STATE_ACTIVATED;
-	}
-
 	public function getName(): string
 	{
 		return $this->name;
@@ -150,36 +123,6 @@ class User extends AbstractEntity
 	{
 		$this->name = $name;
 		$this->surname = $surname;
-	}
-
-	public function getState(): int
-	{
-		return $this->state;
-	}
-
-	public function setState(int $state): void
-	{
-		if (!in_array($state, self::STATES, true)) {
-			throw new InvalidArgumentException(sprintf('Unsupported state %s', $state));
-		}
-
-		$this->state = $state;
-	}
-
-	public function getGravatar(): string
-	{
-		return 'https://www.gravatar.com/avatar/' . md5($this->email);
-	}
-
-	public function toIdentity(): Identity
-	{
-		return new Identity($this->getId(), [$this->role], [
-			'email' => $this->email,
-			'name' => $this->name,
-			'surname' => $this->surname,
-			'state' => $this->state,
-			'gravatar' => $this->getGravatar(),
-		]);
 	}
 
 }

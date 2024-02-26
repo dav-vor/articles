@@ -14,9 +14,4 @@ use App\Model\Database\Repository\AbstractRepository;
 class UserRepository extends AbstractRepository
 {
 
-	public function findOneByEmail(string $email): ?User
-	{
-		return $this->findOneBy(['email' => $email]);
-	}
-
 }

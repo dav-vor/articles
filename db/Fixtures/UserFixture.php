@@ -3,8 +3,8 @@
 namespace Database\Fixtures;
 
 use App\Domain\User\User;
-use App\Model\Security\Passwords;
 use Doctrine\Persistence\ObjectManager;
+use Nette\Security\Passwords;
 
 class UserFixture extends AbstractFixture
 {
@@ -22,13 +22,14 @@ class UserFixture extends AbstractFixture
 				$user['surname'],
 				$user['email'],
 				$user['username'],
-				$this->container->getByType(Passwords::class)->hash('admin')
+				$this->container->getByType(Passwords::class)->hash($user['password'])
 			);
-			$entity->activate();
+
 			$entity->setRole($user['role']);
 
 			$manager->persist($entity);
 		}
+
 		$manager->flush();
 	}
 
@@ -37,7 +38,9 @@ class UserFixture extends AbstractFixture
 	 */
 	protected function getUsers(): iterable
 	{
-		yield ['email' => 'admin@admin.cz', 'name' => 'Contributte', 'surname' => 'Admin', 'username' => 'contributte', 'role' => User::ROLE_ADMIN];
+		yield ['email' => 'admin@admin.cz', 'name' => 'Admin', 'surname' => 'Admin', 'username' => 'admin', 'role' => User::ROLE_ADMIN, 'password' => 'admin'];
+		yield ['email' => 'alice@example.com', 'name' => 'Alice', 'surname' => 'Smith', 'username' => 'alice', 'role' => User::ROLE_REDACTOR, 'password' => 'alice'];
+		yield ['email' => 'Bob@example.com', 'name' => 'Bob', 'surname' => 'Johnson', 'username' => 'bob', 'role' => User::ROLE_REDACTOR, 'password' => 'bob'];
 	}
 
 }

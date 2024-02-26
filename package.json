@@ -1,0 +1,19 @@
+{
+  "name": "webapp-skeleton",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "build": "cross-env NODE_ENV=production webpack"
+  },
+  "dependencies": {
+    "naja": "^1.8.3",
+    "nette-forms": "^3.0.3"
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  }
+}

@@ -12,11 +12,9 @@ use Nettrine\Fixtures\ContainerAwareInterface;
 abstract class AbstractFixture extends BaseFixture implements ContainerAwareInterface, OrderedFixtureInterface
 {
 
-	/** @var Container */
-	protected $container;
+	protected Container $container;
 
-	/** @var Generator */
-	protected $faker;
+	protected Generator $faker;
 
 	/**
 	 * AbstractFixture constructor
