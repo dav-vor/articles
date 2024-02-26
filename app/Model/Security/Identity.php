@@ -7,9 +7,9 @@ use Nette\Security\SimpleIdentity as NetteIdentity;
 class Identity extends NetteIdentity
 {
 
-	public function getFullname(): string
+	public function isAdmin(): bool
 	{
-		return sprintf('%s %s', $this->data['name'] ?? '', $this->data['surname'] ?? '');
+		return in_array('admin', $this->getRoles(), true);
 	}
 
 }

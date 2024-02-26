@@ -39,9 +39,9 @@ services:
   database:
     image: dockette/postgres:10
     environment:
-      - POSTGRES_PASSWORD=contributte
-      - POSTGRES_USER=contributte
-      - POSTGRES_DB=contributte
+      - POSTGRES_PASSWORD=heslo
+      - POSTGRES_USER=admin_user
+      - POSTGRES_DB=mega
     volumes:
       - .docker/data/postgres:/var/lib/postgresql/data
 

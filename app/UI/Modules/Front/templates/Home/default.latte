@@ -1,0 +1,71 @@
+{include '../header.latte'}
+
+<body>
+    <div>
+		{if $loggedIn}
+			{snippet table}
+				<table>
+					<thead>
+						<tr>
+							<th>Jméno článku</th>
+							<th>Redaktor</th>
+							<th><a class="ajax" n:href="table!, $sort, $page">Datum</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						{foreach $data as $row}
+							<tr>
+								<td><a n:href="Article:edit $row->getId()">{$row->getName()}</a></td>
+								<td>{$row->getUser()->getFullName()}</td>
+								<td>{$row->getCreatedAt()->format('d.m.Y')}</td>
+							</tr>
+						{/foreach}
+
+					</tbody>
+				</table>
+
+				<div>
+					<a type="button" class="btn btn-link" n:href="Article:edit"> Vytvořit nový článek</a>
+				</div>
+				<ul class="pagination" style = "justify-content: center;">
+					{if $totalPages > 1}
+						{if $page > 1}
+							<li class="page-item"> <a class="ajax page-link" n:href="table!, $sort, $page-1">&laquo</a></li>
+						{/if}
+						{foreach range(1, $totalPages) as $pageNumber}
+							<li class="page-item"{if $pageNumber == $page} class="active"{/if}><a class="ajax page-link" n:href="table!,$sort, $pageNumber">{$pageNumber}</a></li>
+						{/foreach}
+
+						{if $page < $totalPages}
+							<li class="page-item"><a class="ajax page-link"  n:href="table!, $sort, $page+1">&raquo;</a></li>
+						{/if}
+					{/if}
+				</ul>
+			{/snippet}
+		{else}
+			Pro zobrazení článku se přihlaste.
+		{/if}
+    </div>
+</body>
+<style>
+	table {
+	border-collapse: collapse;
+	width: 100%;
+}
+	th, td {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+	th {
+	cursor: pointer;
+}
+.login-link {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 9999;
+}
+</style>
+
